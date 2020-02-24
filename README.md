@@ -29,5 +29,7 @@ CodeSandbox:
 
 fbInfo是一個包含回傳資料的 object，由**彈出視窗**產生後傳回**主視窗**。
 fbInfo的內容會依據呼叫時傳入的 scope及 fields而定，詳細內容可以參考官方文件:
+
 [Graph API Reference](https://developers.facebook.com/docs/graph-api/reference)
+
 [Using Graph API](https://developers.facebook.com/docs/graph-api/using-graph-api)
