@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>FBLogin</title>
+  <meta charset="UTF-8" />
+</head>
+
+<body>
+  <script>
+    // Set document.domain to solve CORS problem
+    document.domain = "SUFFIX_OF_THE_CURRENT_DOMAIN";
+  </script>
+  <button id="login">Login</button>
+  <div><img id="profileImage" /></div>
+  <textarea id="message" cols="80" rows="10"></textarea>
+  <script src="src/FBWebSDK.js"></script>
+  <script>
+    const setMessage = fbInfo => {
+      const message =
+        "ID: " +
+        fbInfo.id +
+        "\n" +
+        "First Name: " +
+        fbInfo.first_name +
+        "\n" +
+        "Last Name: " +
+        fbInfo.last_name +
+        "\n" +
+        "Image URL: " +
+        fbInfo.picture.data.url +
+        "\n" +
+        "Email: " +
+        fbInfo.email;
+      document.getElementById("message").value = message;
+    };
+
+    const setProfileImage = srcUrl => {
+      var element = document.getElementById("profileImage");
+      if (srcUrl == null) {
+        element.style.display = "none";
+        element.src = "";
+      } else {
+        element.style.display = "block";
+        element.src = srcUrl;
+      }
+    };
+
+    const fbWeb = new FBWeb();
+    fbWeb.init("YOUR_CLIENT_ID", "public_profile,email", "first_name,last_name,email,picture");
+    document.getElementById("login").addEventListener("click", () => {
+      window.fbWeb.login(fbInfo => {
+        console.log(fbInfo);
+        setMessage(fbInfo);
+        setProfileImage(fbInfo.picture.data.url);
+      });
+    });
+  </script>
+</body>
+
+</html>

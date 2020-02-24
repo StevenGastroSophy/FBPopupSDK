@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>FBPopup</title>
+	<meta charset="UTF-8" />
+</head>
+
+<body>
+	<script>
+		// Set document.domain to solve CORS problem
+		document.domain = "SUFFIX_OF_THE_CURRENT_DOMAIN";
+	</script>
+	<script>
+		const getHashObject = (hash) => {
+			const pairs = hash.substr(1);
+			const result = pairs.split('&').reduce((result, item) => {
+				if (item) {
+					const keyValue = item.split('=');
+					result[keyValue[0]] = keyValue[1];
+				}
+				return result;
+			}, {});
+
+			return result;
+		}
+
+		const fbWeb = window.opener.fbWeb;
+		const fields = fbWeb.fields;
+		const result = getHashObject(window.location.hash);
+
+		if (result) {
+			const token = result.access_token;
+			const graphUrl = `https://graph.facebook.com/me?fields=${fields}&access_token=${token}`;
+			fetch(graphUrl)
+				.then(function (response) {
+					return response.json();
+				})
+				.then(function (resJson) {
+					const info = {
+						errorObject: {},
+					};
+					if (resJson.error) {
+						info.errorObject = resJson.error;
+						window.opener.fbWeb.setFBInfo(info);
+					} else {
+						window.opener.fbWeb.setFBInfo({ ...info, ...resJson });
+					}
+				});
+		} else {
+			const info = {
+				errorObject: {
+					message: "Nothing after hash tag.",
+					type: "OAuthException",
+				},
+			};
+			window.opener.fbWeb.setFBInfo(info);
+		}
+	</script>
+</body>
+
+</html>
