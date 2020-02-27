@@ -4,9 +4,7 @@ Facebook login with a popup window
 把 FB Oauth API 用一個彈出視窗包起來，解決官方 SDK彈出視窗會被 Firefox阻擋的問題
 
 ----
-## Demo
-[Login](https://g7tfb.csb.app/)
-
+## Sample Code
 CodeSandbox:
 [Login](https://codesandbox.io/s/fblogin-g7tfb) and
 [Popup](https://codesandbox.io/s/fbpopup-vflz7)
